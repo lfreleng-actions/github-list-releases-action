@@ -48,7 +48,7 @@ jobs:
       - name: "Running local action: ${{ github.repository }}"
         uses: ./
         with:
-          input: "test input 💬"
+          SUMMARY_OUTPUT: "true"
 
       - name: "Validated local action: ${{ github.repository }}"
         shell: bash
