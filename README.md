@@ -34,14 +34,15 @@ steps:
 
 <!-- markdownlint-disable MD013 -->
 
-| Name            | Required | Default | Description                                    |
-| --------------- | -------- | ------- | ---------------------------------------------- |
-| TAG             | False    |         | Check if this tag/version already exists       |
-| SUMMARY_OUTPUT  | False    | false   | Displays summary output in GitHub step summary |
-| PRODUCTION_ONLY | False    | false   | Exclude pre-release and draft releases         |
-| RETURN_TYPE     | False    | text    | Output format: text or json                    |
-| JSON_FIELDS     | False    | tagName | Fields to return when using JSON return type   |
-| ORDER           | False    | desc    | Sort order: asc or desc                        |
+| Name            | Required | Default               | Description                                    |
+| --------------- | -------- | --------------------- | ---------------------------------------------- |
+| TAG             | False    |                       | Check if this tag/version already exists       |
+| SUMMARY_OUTPUT  | False    | false                 | Displays summary output in GitHub step summary |
+| PRODUCTION_ONLY | False    | false                 | Exclude pre-release and draft releases         |
+| RETURN_TYPE     | False    | text                  | Output format: text or json                    |
+| JSON_FIELDS     | False    | tagName               | Fields to return when using JSON return type   |
+| ORDER           | False    | desc                  | Sort order: asc or desc                        |
+| GITHUB_TOKEN    | False    | `${{ github.token }}` | Token used to authenticate the GitHub CLI      |
 
 <!-- markdownlint-enable MD013 -->
 
@@ -60,6 +61,20 @@ steps:
 
 The GitHub CLI (`gh`) must be available in the runner's PATH. This is
 pre-installed on GitHub-hosted runners.
+
+The action invokes `gh` under the hood, which requires authentication via
+the `GH_TOKEN` environment variable. The action sets this automatically
+using the `GITHUB_TOKEN` input, which defaults to `${{ github.token }}`.
+The calling workflow (or job) must grant at least:
+
+```yaml
+permissions:
+  contents: read
+```
+
+If the default token lacks the required privileges (for example, when
+listing releases from a different repository), pass an explicit token
+via the `GITHUB_TOKEN` input.
 
 ## Notes
 
