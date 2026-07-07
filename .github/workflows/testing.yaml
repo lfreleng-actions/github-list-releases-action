@@ -615,7 +615,7 @@ jobs:
     if: github.event_name != 'pull_request'
     runs-on: ubuntu-latest
     permissions:
-      contents: write
+      contents: write  # Create/delete a throwaway test draft release
     timeout-minutes: 10
     steps:
       # Harden the runner used by this workflow
