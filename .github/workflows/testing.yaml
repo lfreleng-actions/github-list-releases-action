@@ -56,11 +56,6 @@ jobs:
         with:
           egress-policy: audit
 
-      - name: "Checkout repository"
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          persist-credentials: false
-
       # ---------------------------------------------------------------
       # 0. Enumerate the fixture's release matrix once and derive the
       #    values later tests need. Deriving them dynamically (rather
@@ -126,7 +121,7 @@ jobs:
       # ---------------------------------------------------------------
       - name: "Test: default inputs against current repository"
         id: defaults
-        uses: ./
+        uses: $/
         with:
           summary_output: "true"
 
@@ -156,7 +151,7 @@ jobs:
       # ---------------------------------------------------------------
       - name: "Test: remote repository in text mode"
         id: remote_text
-        uses: ./
+        uses: $/
         with:
           repository: ${{ env.FIXTURE_REPO }}
 
@@ -186,7 +181,7 @@ jobs:
       # ---------------------------------------------------------------
       - name: "Test: remote repository in JSON mode"
         id: remote_json
-        uses: ./
+        uses: $/
         with:
           repository: ${{ env.FIXTURE_REPO }}
           return_type: "json"
@@ -225,7 +220,7 @@ jobs:
       # ---------------------------------------------------------------
       - name: "Test: toggled-prefix tag matches existing release"
         id: tag_unprefixed
-        uses: ./
+        uses: $/
         with:
           repository: ${{ env.FIXTURE_REPO }}
           tag: ${{ steps.fixture.outputs.normal_tag_alt }}
@@ -250,7 +245,7 @@ jobs:
       # ---------------------------------------------------------------
       - name: "Test: exact tag matches directly"
         id: tag_prefixed
-        uses: ./
+        uses: $/
         with:
           repository: ${{ env.FIXTURE_REPO }}
           tag: ${{ steps.fixture.outputs.normal_tag }}
@@ -276,7 +271,7 @@ jobs:
       # ---------------------------------------------------------------
       - name: "Test: non-existent tag returns released=false"
         id: tag_missing
-        uses: ./
+        uses: $/
         with:
           repository: ${{ env.FIXTURE_REPO }}
           tag: "v99.99.99-does-not-exist"
@@ -301,7 +296,7 @@ jobs:
       # ---------------------------------------------------------------
       - name: "Test: tag checking in JSON mode"
         id: tag_json
-        uses: ./
+        uses: $/
         with:
           repository: ${{ env.FIXTURE_REPO }}
           tag: ${{ steps.fixture.outputs.normal_tag }}
@@ -334,14 +329,14 @@ jobs:
       # ---------------------------------------------------------------
       - name: "Test: ascending sort order"
         id: order_asc
-        uses: ./
+        uses: $/
         with:
           repository: ${{ env.FIXTURE_REPO }}
           order: "asc"
 
       - name: "Test: descending sort order"
         id: order_desc
-        uses: ./
+        uses: $/
         with:
           repository: ${{ env.FIXTURE_REPO }}
           order: "desc"
@@ -381,7 +376,7 @@ jobs:
       # ---------------------------------------------------------------
       - name: "Test: limit caps the number of releases"
         id: limited
-        uses: ./
+        uses: $/
         with:
           repository: ${{ env.FIXTURE_REPO }}
           limit: "2"
@@ -415,7 +410,7 @@ jobs:
       # ---------------------------------------------------------------
       - name: "Test: production_only excludes pre-releases/drafts"
         id: production_only
-        uses: ./
+        uses: $/
         with:
           repository: ${{ env.FIXTURE_REPO }}
           production_only: "true"
@@ -477,7 +472,7 @@ jobs:
       # ---------------------------------------------------------------
       - name: "Test: invalid repository input"
         id: bad_repo
-        uses: ./
+        uses: $/
         continue-on-error: true
         with:
           repository: "not-a-valid-repo-string"
@@ -495,7 +490,7 @@ jobs:
       # ---------------------------------------------------------------
       - name: "Test: invalid return_type input"
         id: bad_return_type
-        uses: ./
+        uses: $/
         continue-on-error: true
         with:
           repository: ${{ env.FIXTURE_REPO }}
@@ -514,7 +509,7 @@ jobs:
       # ---------------------------------------------------------------
       - name: "Test: invalid order input"
         id: bad_order
-        uses: ./
+        uses: $/
         continue-on-error: true
         with:
           repository: ${{ env.FIXTURE_REPO }}
@@ -533,7 +528,7 @@ jobs:
       # ---------------------------------------------------------------
       - name: "Test: invalid limit input"
         id: bad_limit
-        uses: ./
+        uses: $/
         continue-on-error: true
         with:
           repository: ${{ env.FIXTURE_REPO }}
@@ -552,7 +547,7 @@ jobs:
       # ---------------------------------------------------------------
       - name: "Test: invalid json_fields input"
         id: bad_fields
-        uses: ./
+        uses: $/
         continue-on-error: true
         with:
           repository: ${{ env.FIXTURE_REPO }}
@@ -572,7 +567,7 @@ jobs:
       # ---------------------------------------------------------------
       - name: "Test: mixed-case inputs are normalised"
         id: mixed_case
-        uses: ./
+        uses: $/
         with:
           repository: ${{ env.FIXTURE_REPO }}
           return_type: "JSON"
@@ -624,11 +619,6 @@ jobs:
         with:
           egress-policy: audit
 
-      - name: "Checkout repository"
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          persist-credentials: false
-
       - name: "Create throwaway draft release"
         id: mkdraft
         shell: bash
@@ -653,14 +643,14 @@ jobs:
 
       - name: "List including drafts (production_only=false)"
         id: unfiltered
-        uses: ./
+        uses: $/
         with:
           repository: ${{ github.repository }}
           production_only: "false"
 
       - name: "List excluding drafts (production_only=true)"
         id: filtered
-        uses: ./
+        uses: $/
         with:
           repository: ${{ github.repository }}
           production_only: "true"
